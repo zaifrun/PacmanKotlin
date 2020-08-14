@@ -17,9 +17,9 @@ class Game(private var context: Context,view: TextView) {
         private var pointsView: TextView = view
         private var points : Int = 0
         //bitmap of the pacman
-        internal var pacBitmap: Bitmap
-        internal var pacx: Int = 0
-        internal var pacy: Int = 0
+        var pacBitmap: Bitmap
+        var pacx: Int = 0
+        var pacy: Int = 0
         //the list of goldcoins - initially empty
         private var coins = ArrayList<GoldCoin>()
         //a reference to the gameview
