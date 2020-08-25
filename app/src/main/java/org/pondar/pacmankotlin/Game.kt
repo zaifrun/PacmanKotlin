@@ -20,12 +20,18 @@ class Game(private var context: Context,view: TextView) {
         var pacBitmap: Bitmap
         var pacx: Int = 0
         var pacy: Int = 0
+
+
+        //did we initialize the coins?
+        var coinsInitialized = false
+
         //the list of goldcoins - initially empty
-        private var coins = ArrayList<GoldCoin>()
+        var coins = ArrayList<GoldCoin>()
         //a reference to the gameview
         private var gameView: GameView? = null
         private var h: Int = 0
         private var w: Int = 0 //height and width of screen
+
 
     init {
         pacBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.pacman)
@@ -37,10 +43,19 @@ class Game(private var context: Context,view: TextView) {
     }
 
     //TODO initialize goldcoins also here
+    fun initializeGoldcoins()
+    {
+        //DO Stuff to initialize the array list with coins.
+
+        coinsInitialized = true
+    }
+
+
     fun newGame() {
         pacx = 50
-        pacy = 400 //just some starting coordinates
+        pacy = 400 //just some starting coordinates - you can change this.
         //reset the points
+        coinsInitialized = false
         points = 0
         pointsView.text = "${context.resources.getString(R.string.points)} $points"
         gameView?.invalidate() //redraw screen

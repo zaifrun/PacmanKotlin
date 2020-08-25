@@ -40,6 +40,12 @@ class GameView : View {
         //update the size for the canvas to the game.
         game?.setSize(h, w)
         Log.d("GAMEVIEW", "h = $h, w = $w")
+
+        //are the coins initiazlied?
+        if (!(game!!.coinsInitialized))
+            game?.initializeGoldcoins()
+
+
         //Making a new paint object
         val paint = Paint()
         canvas.drawColor(Color.WHITE) //clear entire canvas to white color
@@ -47,7 +53,10 @@ class GameView : View {
         //draw the pacman
         canvas.drawBitmap(game!!.pacBitmap, game?.pacx!!.toFloat(),
                 game?.pacy!!.toFloat(), paint)
+
         //TODO loop through the list of goldcoins and draw them.
+
+        game?.doCollisionCheck()
         super.onDraw(canvas)
     }
 
