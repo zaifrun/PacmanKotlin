@@ -33,6 +33,8 @@ class Game(private var context: Context,view: TextView) {
         private var w: Int = 0 //height and width of screen
 
 
+    //The init code is called when we create a new Game class.
+    //it's a good place to initialize our images.
     init {
         pacBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.pacman)
 
@@ -45,7 +47,7 @@ class Game(private var context: Context,view: TextView) {
     //TODO initialize goldcoins also here
     fun initializeGoldcoins()
     {
-        //DO Stuff to initialize the array list with coins.
+        //DO Stuff to initialize the array list with some coins.
 
         coinsInitialized = true
     }

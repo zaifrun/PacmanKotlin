@@ -16,15 +16,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //makes sure it always runs in portrait mode
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContentView(R.layout.activity_main)
 
         game = Game(this,pointsView)
 
-
+        //intialize the game view clas and game class
         game?.setGameView(gameView)
         gameView.setGame(game)
         game?.newGame()
+
         moveRight.setOnClickListener {
             game?.movePacmanRight(10)
         }

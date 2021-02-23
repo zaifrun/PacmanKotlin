@@ -42,6 +42,7 @@ class GameView : View {
         Log.d("GAMEVIEW", "h = $h, w = $w")
 
         //are the coins initiazlied?
+        //if not initizlise them
         if (!(game!!.coinsInitialized))
             game?.initializeGoldcoins()
 
@@ -54,7 +55,7 @@ class GameView : View {
         canvas.drawBitmap(game!!.pacBitmap, game?.pacx!!.toFloat(),
                 game?.pacy!!.toFloat(), paint)
 
-        //TODO loop through the list of goldcoins and draw them.
+        //TODO loop through the list of goldcoins and draw them here
 
         game?.doCollisionCheck()
         super.onDraw(canvas)
