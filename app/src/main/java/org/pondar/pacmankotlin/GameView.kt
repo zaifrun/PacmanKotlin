@@ -41,8 +41,8 @@ class GameView : View {
         game?.setSize(h, w)
         Log.d("GAMEVIEW", "h = $h, w = $w")
 
-        //are the coins initiazlied?
-        //if not initizlise them
+        //are the coins initialized?
+        //if not initialise them
         if (!(game!!.coinsInitialized))
             game?.initializeGoldcoins()
 
@@ -51,7 +51,7 @@ class GameView : View {
         val paint = Paint()
         canvas.drawColor(Color.WHITE) //clear entire canvas to white color
 
-        //draw the pacman
+        //draw the Pac-man
         canvas.drawBitmap(game!!.pacBitmap, game?.pacx!!.toFloat(),
                 game?.pacy!!.toFloat(), paint)
 
