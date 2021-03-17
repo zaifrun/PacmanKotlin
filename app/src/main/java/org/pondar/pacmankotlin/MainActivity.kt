@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
     private val gameTimerTick = Runnable {
         if (game!!.running) {
-            game?.Timer()
+            game?.timer()
         }
     }
 
