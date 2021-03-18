@@ -35,8 +35,6 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
         var pacx: Int = 0
         var pacy: Int = 0
 
-
-
         val RIGHT = 1
         val UP = 2
         val LEFT = 3
