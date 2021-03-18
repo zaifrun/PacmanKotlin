@@ -24,7 +24,7 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
         private var points : Int = 0
         private var timerView: TextView = view2
 
-        var time: Int = 120
+        var time: Int = 60
 
         var levelUp: Int = 0
 
@@ -35,12 +35,14 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
         var pacx: Int = 0
         var pacy: Int = 0
 
+
+
         val RIGHT = 1
         val UP = 2
         val LEFT = 3
         val DOWN = 4
 
-        var direction = RIGHT
+        var direction = 1
 
         var running = false
 
@@ -78,7 +80,6 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
         }
     }
 
-    //TODO initialize goldcoins also here
     fun initializeObjects()
     {
         coins.clear()
@@ -102,15 +103,15 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
 
 
     fun newGame() {
-        pacx = 50
-        pacy = 400 //just some starting coordinates - you can change this.
+        pacx = 30
+        pacy = 100
         //reset the points
         objectsInitialized = false
         points = 0
         pointsView.text = "${context.resources.getString(R.string.points)} $points"
         gameView?.invalidate() //redraw screen
         direction = 0
-        time = 360
+        time = 60
         timerView.text = "time left: $time"
         running = true
     }
@@ -121,21 +122,22 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
     }
 
     fun movePacman(pixels: Int) {
+
         if (direction == RIGHT && pacx + pixels + pacBitmap.width < w) {
             // move Right
-            pacx = pacx + pixels
+            pacx += pixels
         }
         else if (direction == UP && pacy - pixels + pacBitmap.height > 0) {
             // move Up
-            pacy = pacy - pixels
+            pacy -= pixels
         }
         else if (direction == LEFT && pacx - pixels + pacBitmap.width > 0) {
             // move Left
-            pacx = pacx - pixels
+            pacx -= pixels
         }
         else if (direction == DOWN && pacy + pixels + pacBitmap.height < h) {
             // move Down
-            pacy = pacy + pixels
+            pacy += pixels
         }
 
         // Do Enemy Movement here
@@ -148,11 +150,11 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
                 // move enemy Up
                 enemy.posY = enemy.posY + (pixels/2 + levelUp*2)
             }
-            else if (enemy.direction == LEFT && enemy.posX + pixels + enemyBitmap.width > w) {
-                // move enemy Left
+            else if (enemy.direction == LEFT && enemy.posX + pixels + enemyBitmap.width < w) {
+                // move enemy Right
                 enemy.posX = enemy.posX - (pixels/2 + levelUp*2)
             }
-            else if (enemy.direction == DOWN && enemy.posY + pixels + enemyBitmap.height > h) {
+            else if (enemy.direction == DOWN && enemy.posY + pixels + enemyBitmap.height < h) {
                 // move enemy Down
                 enemy.posY = enemy.posY - (pixels/2 + levelUp*2)
             }
@@ -187,25 +189,20 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
         return sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)))
     }
 
-    //TODO check if the pacman touches a gold coin
-    //and if yes, then update the neccesseary data
-    //for the gold coins and the points
-    //so you need to go through the arraylist of goldcoins and
-    //check each of them for a collision with the pacman
     fun doCollisionCheck() {
         for (coin in coins) {
             if (!coin.acquired) {
-                if (distance(coin.posX, coin.posY, pacx.toFloat(), pacy.toFloat()) < 100) {
+                if (distance(coin.posX, coin.posY, pacx.toFloat(), pacy.toFloat()) < 160) {
                     coin.acquired = true
                     points += 1
-                    pointsView.text = "points: $points"
+                    pointsView.text = "Points: $points"
                     Log.d("pointUp", "pacman got $points")
                     victoryCondition()
                 }
             }
         }
         for (enemy in enemies) {
-            if (distance(enemy.posX, enemy.posY, pacx.toFloat(), pacy.toFloat()) < 30) {
+            if (distance(enemy.posX, enemy.posY, pacx.toFloat(), pacy.toFloat()) < 160) {
                 time = 0
                 running = false
                 Toast.makeText(this.context, "The ghost haunted you, game over!", Toast.LENGTH_SHORT).show()

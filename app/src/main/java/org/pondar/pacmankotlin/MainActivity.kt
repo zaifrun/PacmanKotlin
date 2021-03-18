@@ -33,16 +33,20 @@ class MainActivity : AppCompatActivity() {
         game?.newGame()
 
         moveRight.setOnClickListener {
-            game?.movePacmanRight(10)
+            game?.movePacmanRight(15)
         }
         moveLeft.setOnClickListener {
-            game?.movePacmanLeft(10)
+            game?.movePacmanLeft(15)
         }
         moveUp.setOnClickListener {
-            game?.movePacmanUp(10)
+            game?.movePacmanUp(15)
         }
         moveDown.setOnClickListener {
-            game?.movePacmanDown(10)
+            game?.movePacmanDown(15)
+        }
+
+        pauseButton.setOnClickListener {
+            game?.pause()
         }
 
         game?.running = true // Should game be running?
@@ -57,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         // Timer for game period
         gameTimer.schedule((object : TimerTask() {
             override fun run() {
-                timerMethod()
+                gametimerMethod()
             }
         }), 0, 1000)
     }
