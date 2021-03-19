@@ -54,7 +54,7 @@ class GameView : View {
         canvas.drawBitmap(game!!.pacBitmap, game?.pacx!!.toFloat(),
                 game?.pacy!!.toFloat(), paint)
 
-        //TODO loop through the list of goldcoins and draw them here
+        // Loop through the list of goldcoins and draw them here
         for (coin in game!!.coins) {
             if (!coin.acquired) {
                 canvas.drawBitmap(game!!.coinBitmap, coin.posX, coin.posY, paint)

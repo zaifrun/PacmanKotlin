@@ -3,12 +3,9 @@ package org.pondar.pacmankotlin
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.icu.lang.UCharacter.IndicPositionalCategory.RIGHT
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
-import org.w3c.dom.Text
 import java.util.ArrayList
 import kotlin.math.sqrt
 import java.util.*
@@ -18,46 +15,49 @@ import java.util.*
  * This class should contain all your game logic
  */
 
-class Game(private var context: Context,view: TextView, view2: TextView) {
+class Game(private var context: Context, view: TextView, view2: TextView, view3: TextView) {
 
-        private var pointsView: TextView = view
-        private var points : Int = 0
-        private var timerView: TextView = view2
+    private var pointsView: TextView = view
+    private var points: Int = 0
+    private var timerView: TextView = view2
+    private var levelView: TextView = view3
 
-        var time: Int = 60
+    var time: Int = 60
 
-        var levelUp: Int = 0
+    var levelUp: Int = 0
 
-        //bitmap of the pacman
-        var pacBitmap: Bitmap
-        var coinBitmap: Bitmap
-        var enemyBitmap: Bitmap
-        var pacx: Int = 0
-        var pacy: Int = 0
+    //bitmap of the pacman
+    var pacBitmap: Bitmap
+    var coinBitmap: Bitmap
+    var enemyBitmap: Bitmap
+    var pacx: Int = 0
+    var pacy: Int = 0
 
-        val RIGHT = 1
-        val UP = 2
-        val LEFT = 3
-        val DOWN = 4
+    // Pacman directions
+    val RIGHT = 1
+    val UP = 2
+    val LEFT = 3
+    val DOWN = 4
 
-        var direction = 1
-
-        var running = false
+    var direction = 1
 
 
-        //did we initialize the coins and enemies?
-        var objectsInitialized = false
+    var running = false
 
-        //the list of goldcoins - initially empty
-        var coins = ArrayList<GoldCoin>()
 
-        // The list of enemies
-        var enemies = ArrayList<Enemy>()
+    //did we initialize the coins and enemies?
+    var objectsInitialized = false
 
-        //a reference to the gameview
-        private var gameView: GameView? = null
-        private var h: Int = 0
-        private var w: Int = 0 //height and width of screen
+    //the list of goldcoins - initially empty
+    var coins = ArrayList<GoldCoin>()
+
+    // The list of enemies
+    var enemies = ArrayList<Enemy>()
+
+    //a reference to the gameview
+    private var gameView: GameView? = null
+    private var h: Int = 0
+    private var w: Int = 0 //height and width of screen
 
     //The init code is called when we create a new Game class.
     //it's a good place to initialize our images.
@@ -72,19 +72,18 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
         this.gameView = view
     }
 
-    fun pause(){
-        if(time > 0){
+    fun pause() {
+        if (time > 0) {
             running = !running
         }
     }
 
-    fun initializeObjects()
-    {
+    fun initializeObjects() {
         coins.clear()
 
         for (x in 0 until 10) {
-            var randomX = Random().nextInt(w)
-            var randomY = Random().nextInt(h)
+            var randomX = Random().nextInt(w - 70)
+            var randomY = Random().nextInt(h - 70)
             coins.add(GoldCoin(randomX.toFloat(), randomY.toFloat()))
         }
 
@@ -110,7 +109,8 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
         gameView?.invalidate() //redraw screen
         direction = 0
         time = 60
-        timerView.text = "time left: $time"
+        timerView.text = "Time Left: $time"
+        levelView.text = "Level: $levelUp"
         running = true
     }
 
@@ -121,19 +121,17 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
 
     fun movePacman(pixels: Int) {
 
+        // Pacman movement
         if (direction == RIGHT && pacx + pixels + pacBitmap.width < w) {
             // move Right
             pacx += pixels
-        }
-        else if (direction == UP && pacy - pixels + pacBitmap.height > 0) {
+        } else if (direction == UP && pacy - pixels + pacBitmap.height > 0) {
             // move Up
             pacy -= pixels
-        }
-        else if (direction == LEFT && pacx - pixels + pacBitmap.width > 0) {
+        } else if (direction == LEFT && pacx - pixels + pacBitmap.width > 0) {
             // move Left
             pacx -= pixels
-        }
-        else if (direction == DOWN && pacy + pixels + pacBitmap.height < h) {
+        } else if (direction == DOWN && pacy + pixels + pacBitmap.height < h) {
             // move Down
             pacy += pixels
         }
@@ -142,19 +140,16 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
         for (enemy in enemies) {
             if (enemy.direction == RIGHT && enemy.posX + pixels + enemyBitmap.width < w) {
                 // move enemy Right
-                enemy.posX = enemy.posX + (pixels/2 + levelUp*2)
-            }
-            else if (enemy.direction == UP && enemy.posY + pixels + enemyBitmap.height < h) {
+                enemy.posX = enemy.posX + (pixels / 2 + levelUp * 2)
+            } else if (enemy.direction == UP && enemy.posY + pixels + enemyBitmap.height < h) {
                 // move enemy Up
-                enemy.posY = enemy.posY + (pixels/2 + levelUp*2)
-            }
-            else if (enemy.direction == LEFT && enemy.posX + pixels + enemyBitmap.width < w) {
+                enemy.posY = enemy.posY + (pixels / 2 + levelUp * 2)
+            } else if (enemy.direction == LEFT && enemy.posX + pixels + enemyBitmap.width < w) {
                 // move enemy Right
-                enemy.posX = enemy.posX - (pixels/2 + levelUp*2)
-            }
-            else if (enemy.direction == DOWN && enemy.posY + pixels + enemyBitmap.height < h) {
+                enemy.posX = enemy.posX - (pixels / 2 + levelUp * 2)
+            } else if (enemy.direction == DOWN && enemy.posY + pixels + enemyBitmap.height < h) {
                 // move enemy Down
-                enemy.posY = enemy.posY - (pixels/2 + levelUp*2)
+                enemy.posY = enemy.posY - (pixels / 2 + levelUp * 2)
             }
         }
 
@@ -163,26 +158,22 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
     }
 
     fun movePacmanRight(pixels: Int) {
-        // Is Pacman still within boundaries of screen?
-        direction = 1
+        direction = RIGHT
     }
 
     fun movePacmanLeft(pixels: Int) {
-        // Is Pacman still within boundaries of screen?
-        direction = 3
+        direction = LEFT
     }
 
     fun movePacmanUp(pixels: Int) {
-        // Is Pacman still within boundaries of screen?
-        direction = 2
+        direction = UP
     }
 
     fun movePacmanDown(pixels: Int) {
-        // Is Pacman still within boundaries of screen?
-        direction = 4
+        direction = DOWN
     }
 
-    fun distance(x1:Float, y1:Float, x2:Float, y2:Float) : Float {
+    fun distance(x1: Float, y1: Float, x2: Float, y2: Float): Float {
         // Calculate the distance and then return it
         return sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)))
     }
@@ -215,7 +206,7 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
                 return
         }
         running = false
-        Toast.makeText(this.context, "You acquired all the coins, well played!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this.context, "You win! Press 'New Game' to go to the next level", Toast.LENGTH_SHORT).show()
         levelUp += 1
     }
 
@@ -223,8 +214,7 @@ class Game(private var context: Context,view: TextView, view2: TextView) {
         if (time > 0) {
             time -= 1
             timerView.text = "time left: $time"
-        }
-        else {
+        } else {
             Toast.makeText(this.context, "Game Over", Toast.LENGTH_SHORT).show()
             running = false
             levelUp = 0
