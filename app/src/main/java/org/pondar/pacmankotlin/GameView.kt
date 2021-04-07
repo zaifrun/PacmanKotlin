@@ -9,8 +9,10 @@ import android.util.Log
 import android.view.View
 
 
+
 //note we now create our own view class that extends the built-in View class
 class GameView : View {
+
 
     private var game: Game? = null
     private var h: Int = 0
@@ -43,12 +45,15 @@ class GameView : View {
 
         //are the coins initiazlied?
         //if not initizlise them
-        if (!(game!!.coinsInitialized))
-            game?.initializeGoldcoins()
+        if (game!!.coinsInitialized)
+            game!!.initializeGoldcoins()
+
 
 
         //Making a new paint object
         val paint = Paint()
+        val circlepaint = Paint()
+        circlepaint.color = Color.RED
         canvas.drawColor(Color.WHITE) //clear entire canvas to white color
 
         //draw the pacman
@@ -57,8 +62,38 @@ class GameView : View {
 
         //TODO loop through the list of goldcoins and draw them here
 
-        game?.doCollisionCheck()
+        var radiusC = 40f
+         Runnable {  for  (item in game!!.coins.indices) {
+            if (!game!!.coins.get(item).taken)
+                canvas.drawCircle(game!!.coins[item].coinx.toFloat(), game!!.coins[item].coiny.toFloat(), radiusC, circlepaint)
+        }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //game?.doCollisionCheck()
+
         super.onDraw(canvas)
     }
-
 }
+
+
+
+
+
+
+
+
