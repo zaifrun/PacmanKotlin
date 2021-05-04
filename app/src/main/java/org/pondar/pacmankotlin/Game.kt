@@ -12,20 +12,12 @@ import android.widget.Toast
  * This class should contain all your game logic
  */
 
-class Game(private var context: Context, view: TextView, Main: MainActivity)  {
+class Game(private var context: Context, view: TextView)  {
 
-    private var timerMethod: MainActivity = Main
+
     private var pointsView: TextView = view
     private var points: Int = 0
     private var goldCoin: GoldCoin? = null
-    var running = false
-
-    init {
-        goldCoin?.coinx
-        goldCoin?.coiny
-        goldCoin?.taken
-
-    }
 
 
     //bitmap of the pacman
@@ -34,41 +26,26 @@ class Game(private var context: Context, view: TextView, Main: MainActivity)  {
     var pacy: Int = 0
 
 
-    //
-
-    //Radius af min mønt
-    var radiusC = 30
-
-
     //did we initialize the coins?
-    var coinsInitialized = true
-
+    var coinsInitialized = false
 
     //the list of goldcoins - initially empty
-
     var coins = ArrayList<GoldCoin>()
 
 
     //DO Stuff to initialize the array list with some coins.
-    fun rng(): Int {
-        val rngone = (10..1050).shuffled().first()
-        println(rngone)
-        return rngone }
 
 
-    // Denne variabel laver en ens værdi til alle mønter selvfølgelig, og den samme hver gang. Den dur derfor ikke lige nu. Jeg tænker det har gøre med det såkaldte seed, som bliver fyret af i den samme "tilfældige" orden hver gang
+
+
     var coin2 = GoldCoin(coinx = 500, coiny = 300, taken = false)
     var coin3 = GoldCoin(coinx = 700, coiny = 200, false)
-    var coin4 = GoldCoin(coinx = 800, coiny = 800, false)
+
 
     init {
 
         coins.add(coin2)
         coins.add(coin3)
-        coins.add(coin4)
-
-        //initalizere en iterator for at kunne tilgå elementer bedre, men er i tvivl om dette er rigtigt...
-
     }
 
 
@@ -81,10 +58,7 @@ class Game(private var context: Context, view: TextView, Main: MainActivity)  {
     //The init code is called when we create a new Game class.
     //it's a good place to initialize our images.
     init {
-
         pacBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.pacman)
-
-
     }
 
     fun setGameView(view: GameView) {
@@ -93,26 +67,18 @@ class Game(private var context: Context, view: TextView, Main: MainActivity)  {
 
 
     //TODO initialize goldcoins also here
-    fun initializeGoldcoins() = Runnable {
-        coinsInitialized = true
+    fun initializeGoldcoins()  {
         println("ArrayList MFFF" + coins.size)
+        coinsInitialized = false
     }
 
 
-    fun newGame() = Runnable {
-
+    fun newGame() {
         pacx = 200
         pacy = 200
-        //for (i in coins.indices) {
-            //coins.get(i).taken = false
-       // }
-        for (i in coins.indices) {
-            coins.get(i).coinx = rng()
-            coins.get(i).coiny = rng()
-        }
         //just some starting coordinates - you can change this.
         //reset the points
-        //coinsInitialized = false
+        coinsInitialized = true
         points = 0
         pointsView.text = "${context.resources.getString(R.string.points)} ${points}"
         gameView?.invalidate() //redraw screen
@@ -122,43 +88,28 @@ class Game(private var context: Context, view: TextView, Main: MainActivity)  {
         this.h = h
         this.w = w
     }
-
-
-
-
-
     fun movePacmanRight(pixels: Int) {
         //still within our boundaries?
         if (pacx + pixels + pacBitmap.width < w && pacx < 1084) {
             pacx = pacx + pixels
-
-
         }
-
     }
 
     fun movePacmanLeft(pixels: Int) {
         if (pacx + pixels + pacBitmap.width < w && pacx > 0) {
             pacx = pacx - pixels
-
-
-
         }
     }
 
     fun movePacmanUp(pixels: Int) {
         if (pacy + pixels + pacBitmap.height < h && pacy > 1) {
             pacy = pacy - pixels
-
-
         }
     }
 
     fun movePacmanDown(pixels: Int) {
         if (pacy + pixels + pacBitmap.height < h && pacy < 1090) {
             pacy = pacy + pixels
-
-
         }
     }
     fun movedir (direction : Int){
@@ -170,7 +121,6 @@ class Game(private var context: Context, view: TextView, Main: MainActivity)  {
         }
         doCollisionCheck()
         gameView!!.invalidate()
-
 
     }
 
@@ -187,19 +137,15 @@ class Game(private var context: Context, view: TextView, Main: MainActivity)  {
         var ydist = y1 - y2.toDouble()
         var result = Math.sqrt(xdist * xdist + ydist * ydist).toFloat()
         return result
-
-
     }
 
-
-    fun doCollisionCheck() = Runnable {
+    fun doCollisionCheck()  {
         for (i in coins.indices) {
             var pacCenterX = pacx + pacBitmap.width / 2
             var pacCenterY = pacy + pacBitmap.height / 2
             var coinCenterX = coins.get(i).coinx + 60 / 2
             var coinCenterY = coins.get(i).coiny + 60 / 2
             var result = distance(pacCenterX, coinCenterX, pacCenterY, coinCenterY)
-
 
             if (result < 115f && !coins[i].taken) {
 
@@ -208,17 +154,11 @@ class Game(private var context: Context, view: TextView, Main: MainActivity)  {
                 coins[i].taken = true
                 println(coins[i].taken)
                 println(points)
-
-
-            }
-        }
+            } }
         if (points == 3) {
             val toasty = Toast.makeText(context.applicationContext, "Du har vundet", Toast.LENGTH_SHORT)
             toasty.show()
-
         }
-
-
     }
 }
 

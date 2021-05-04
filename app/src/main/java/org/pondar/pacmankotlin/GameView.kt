@@ -37,6 +37,7 @@ class GameView : View {
     //drawn whenever we update the screen.
     override fun onDraw(canvas: Canvas) {
         //Here we get the height and weight
+
         h = canvas.height
         w = canvas.width
         //update the size for the canvas to the game.
@@ -45,8 +46,9 @@ class GameView : View {
 
         //are the coins initiazlied?
         //if not initizlise them
-        if (game!!.coinsInitialized)
-            game!!.initializeGoldcoins()
+
+        if (!(game!!.coinsInitialized))
+            game?.initializeGoldcoins()
 
 
 
@@ -58,34 +60,16 @@ class GameView : View {
 
         //draw the pacman
         canvas.drawBitmap(game!!.pacBitmap, game?.pacx!!.toFloat(),
-                game?.pacy!!.toFloat(), paint)
+               game?.pacy!!.toFloat(), paint)
 
         //TODO loop through the list of goldcoins and draw them here
 
         var radiusC = 40f
-         Runnable {  for  (item in game!!.coins.indices) {
+         for  (item in game!!.coins.indices) {
             if (!game!!.coins.get(item).taken)
                 canvas.drawCircle(game!!.coins[item].coinx.toFloat(), game!!.coins[item].coiny.toFloat(), radiusC, circlepaint)
-        }}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //game?.doCollisionCheck()
-
+        }
+        game?.doCollisionCheck()
         super.onDraw(canvas)
     }
 }
