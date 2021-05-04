@@ -5,6 +5,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.widget.TextView
 import android.widget.Toast
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 
 /**
@@ -25,21 +28,21 @@ class Game(private var context: Context, view: TextView)  {
     var pacx: Int = 0
     var pacy: Int = 0
 
+    fun rng(): Int {
+        val rngone = (10..1050).shuffled().first()
+        println(rngone)
+        return rngone }
 
+    var coin2 = GoldCoin(coinx = rng(), coiny = rng(), taken = false)
+    var coin3 = GoldCoin(coinx = rng(), coiny = rng(), false)
     //did we initialize the coins?
-    var coinsInitialized = false
+    var coinsInitialized = true
 
     //the list of goldcoins - initially empty
     var coins = ArrayList<GoldCoin>()
 
 
     //DO Stuff to initialize the array list with some coins.
-
-
-
-
-    var coin2 = GoldCoin(coinx = 500, coiny = 300, taken = false)
-    var coin3 = GoldCoin(coinx = 700, coiny = 200, false)
 
 
     init {
@@ -70,6 +73,12 @@ class Game(private var context: Context, view: TextView)  {
     fun initializeGoldcoins()  {
         println("ArrayList MFFF" + coins.size)
         coinsInitialized = false
+        var coin4 = GoldCoin(coinx = rng(), coiny = rng(), taken = false)
+        var coin5 = GoldCoin(coinx = rng(), coiny = rng(), false)
+        coins.add(coin4)
+        coins.add(coin5)
+
+
     }
 
 
@@ -78,10 +87,13 @@ class Game(private var context: Context, view: TextView)  {
         pacy = 200
         //just some starting coordinates - you can change this.
         //reset the points
+        initializeGoldcoins()
         coinsInitialized = true
+
         points = 0
         pointsView.text = "${context.resources.getString(R.string.points)} ${points}"
         gameView?.invalidate() //redraw screen
+
     }
 
     fun setSize(h: Int, w: Int) {
