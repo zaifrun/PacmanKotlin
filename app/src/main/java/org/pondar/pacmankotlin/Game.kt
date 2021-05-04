@@ -21,6 +21,9 @@ class Game(private var context: Context, view: TextView)  {
     private var pointsView: TextView = view
     private var points: Int = 0
     private var goldCoin: GoldCoin? = null
+    var running = false
+    var direction = right
+
 
 
     //bitmap of the pacman
@@ -87,9 +90,7 @@ class Game(private var context: Context, view: TextView)  {
         pacy = 200
         //just some starting coordinates - you can change this.
         //reset the points
-        initializeGoldcoins()
         coinsInitialized = true
-
         points = 0
         pointsView.text = "${context.resources.getString(R.string.points)} ${points}"
         gameView?.invalidate() //redraw screen

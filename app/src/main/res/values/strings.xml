@@ -7,4 +7,7 @@
     <string name="moveLeft">Left</string>
     <string name="moveUp">Up</string>
     <string name="moveDown">Down</string>
+    <string name="timerValue">Timer Value: %1$d</string>
+    <string name="pause">Pause</string>
+    <string name="continueLabel">Continue</string>
 </resources>
