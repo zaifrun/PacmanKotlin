@@ -22,7 +22,7 @@ class Game(private var context: Context, view: TextView)  {
     private var points: Int = 0
     private var goldCoin: GoldCoin? = null
     var running = false
-    var direction = right
+
 
 
 
@@ -103,28 +103,29 @@ class Game(private var context: Context, view: TextView)  {
     }
     fun movePacmanRight(pixels: Int) {
         //still within our boundaries?
-        if (pacx + pixels + pacBitmap.width < w && pacx < 1084) {
+        if (pacx + pixels + pacBitmap.width < w && pacx < this.w) {
             pacx = pacx + pixels
         }
     }
 
     fun movePacmanLeft(pixels: Int) {
-        if (pacx + pixels + pacBitmap.width < w && pacx > 0) {
+        if (pacx + pixels + pacBitmap.width < w ) {
             pacx = pacx - pixels
         }
     }
 
     fun movePacmanUp(pixels: Int) {
-        if (pacy + pixels + pacBitmap.height < h && pacy > 1) {
+        if (pacy + pixels + pacBitmap.height < h && pacy > 0) {
             pacy = pacy - pixels
         }
     }
 
     fun movePacmanDown(pixels: Int) {
-        if (pacy + pixels + pacBitmap.height < h && pacy < 1090) {
+        if (pacy + pixels + pacBitmap.height < h && pacy < this.h) {
             pacy = pacy + pixels
         }
     }
+
     fun movedir (direction : Int){
         when(direction) {
             1 -> movePacmanRight(10)
@@ -134,6 +135,7 @@ class Game(private var context: Context, view: TextView)  {
         }
         doCollisionCheck()
         gameView!!.invalidate()
+        println("pacman pos" + pacy+ pacx+direction)
 
     }
 

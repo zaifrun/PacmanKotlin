@@ -9,12 +9,18 @@ import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import android.view.View.OnClickListener
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnClickListener {
 
     private var game: Game? = null
     private var myTimer: Timer = Timer()
     var counter: Int = 0
+    val RIGHT = 1
+    val LEFT = 2
+    val DOWN = 3
+    val UP = 4
+    var dpac = RIGHT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +33,8 @@ class MainActivity : AppCompatActivity() {
         game?.setGameView(gameView)
         game?.newGame()
         gameView.setGame(game)
-        //startButton.setOnClickListener
-        //stopButton.setOnClickListener
+        startButton.setOnClickListener(this)
+        stopButton.setOnClickListener(this)
 
 
         //make a new timer
@@ -42,16 +48,16 @@ class MainActivity : AppCompatActivity() {
         }, 0, 200) //0 indicates we start now, 200
         //is the number of miliseconds between each call
         moveRight.setOnClickListener {
-            game?.movedir(1)
+             dpac = RIGHT
         }
         moveLeft.setOnClickListener {
-            game?.movedir(2)
+            dpac = LEFT
         }
         moveUp.setOnClickListener {
-            game?.movedir(3)
+            dpac = UP
         }
         moveDown.setOnClickListener {
-            game?.movedir(4)
+            dpac = DOWN
         }
     }
 
@@ -89,6 +95,13 @@ class MainActivity : AppCompatActivity() {
             // run every second and one for the pacman which need to run
             //faster than every second
             textView.text = getString(R.string.timerValue, counter)
+            when(dpac){
+               RIGHT -> game!!.movedir(1)
+                LEFT -> game!!.movedir(2)
+                UP -> game!!.movedir(3)
+                DOWN -> game!!.movedir(4)
+            }
+
 
 
         }
@@ -102,24 +115,19 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
-        if (id == R.id.action_settings) {
-            Toast.makeText(this, "settings clicked", Toast.LENGTH_LONG).show()
-            return true
-        } else if (id == R.id.startButton) {
+    override fun onClick(v: View) {
+        if (v.id == R.id.startButton) {
             game!!.running = true
-        } else if (id == R.id.stopButton) {
+        } else if (v.id == R.id.stopButton) {
             game!!.running = false
-        } else if (id == R.id.action_newGame) {
+        } else if (v.id == R.id.action_newGame) {
             counter = 0
             game!!.newGame() //you should call the newGame method instead of this
             game!!.running = false
-            textView.text = getString(R.string.timerValue, counter)}
-            return super.onOptionsItemSelected(item)}
+            textView.text = getString(R.string.timerValue,counter)
+
+        }
+    }
 
 }
 
