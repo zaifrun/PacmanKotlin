@@ -21,6 +21,7 @@ class Game(private var context: Context, view: TextView)  {
     private var pointsView: TextView = view
     private var points: Int = 0
     private var goldCoin: GoldCoin? = null
+    private var eneMies: Enemies? = null
     var running = false
 
     //bitmap of the pacman
@@ -29,27 +30,35 @@ class Game(private var context: Context, view: TextView)  {
     var pacy: Int = 0
 
     fun rng(): Int {
-        val rngone = (10..800).shuffled().first()
+        val rngone = (10..1000).shuffled().first()
         println(rngone)
         return rngone }
 
     var coin2 = GoldCoin(coinx = rng(), coiny = rng(), taken = false)
     var coin3 = GoldCoin(coinx = rng(), coiny = rng(), false)
+    var coin9 = GoldCoin(coinx = rng(), coiny = rng(), false)
     //did we initialize the coins?
+    var coins = ArrayList<GoldCoin>()
+    init {
+
+        coins.add(coin2)
+        coins.add(coin3)
+        coins.add(coin9)
+    }
     var coinsInitialized = true
 
+    var skurke = ArrayList<Enemies>()
+
+    var VAR = Enemies(enx=rng(),eny = rng(),dead = false)
+
+
     //the list of goldcoins - initially empty
-    var coins = ArrayList<GoldCoin>()
+
 
 
     //DO Stuff to initialize the array list with some coins.
 
 
-    init {
-
-        coins.add(coin2)
-        coins.add(coin3)
-    }
 
 
     //a reference to the gameview
@@ -71,69 +80,108 @@ class Game(private var context: Context, view: TextView)  {
 
     //TODO initialize goldcoins also here
     fun initializeGoldcoins()  {
-        coinsInitialized = false
+
         var coin4 = GoldCoin(coinx = rng(), coiny = rng(), taken = false)
         var coin5 = GoldCoin(coinx = rng(), coiny = rng(), false)
+        var coin10 = GoldCoin(coinx = rng(), coiny = rng(), false)
         coins.add(coin4)
         coins.add(coin5)
+        coins.add(coin10)
+        coinsInitialized = true
+
+    }
+    fun lvl(){
+        if(points == 3){
+            var coin6 = GoldCoin(coinx = rng(), coiny = rng(), taken = false)
+            coins.add(coin6)
+            var coin7 = GoldCoin(coinx = rng(), coiny = rng(), taken = false)
+            coins.add(coin7)
+            var coin8 = GoldCoin(coinx = rng(), coiny = rng(), taken = false)
+            coins.add(coin8)
+
+
+        }
+        else if(points == 6){
+            val toastyy = Toast.makeText(context.applicationContext, "BOSS LVL", Toast.LENGTH_SHORT)
+            toastyy.show()
+            var sepiroth = Enemies(enx=rng(),eny = rng(), dead = false)
+            skurke.add(sepiroth)
+            var sauron = Enemies(enx=rng(),eny = rng(), dead = false)
+            skurke.add(sauron)
+            var udlejer = Enemies(enx=rng(),eny = rng(), dead = false)
+            skurke.add(udlejer)
+
+
+        }
     }
     fun newGame() {
         pacx = 200
         pacy = 200
         //just some starting coordinates - you can change this.
         //reset the points
-        coinsInitialized = true
+        coinsInitialized = false
         points = 0
+        if(points > 0 || coinsInitialized == false)
+        {coins.clear()}
+        initializeGoldcoins()
+        running = true
         pointsView.text = "${context.resources.getString(R.string.points)} ${points}"
         gameView?.invalidate() //redraw screen
     }
+
+
+
 
     fun setSize(h: Int, w: Int) {
         this.h = h
         this.w = w
     }
+
     fun movePacmanRight(pixels: Int) {
         //still within our boundaries?
         if (pacx + pixels + pacBitmap.width < w ) {
             pacx = pacx + pixels
-            gameView!!.invalidate()
+
         }
     }
 
     fun movePacmanLeft(pixels: Int) {
         if (pacx + pixels + pacBitmap.width > 0 && pacx > 0 ) {
             pacx = pacx - pixels
-            gameView!!.invalidate()
+
         }
     }
 
     fun movePacmanUp(pixels: Int) {
         if (pacy + pixels + pacBitmap.height > 0 && pacy > 0 ) {
             pacy = pacy - pixels
-            gameView!!.invalidate()
+
         }
     }
 
     fun movePacmanDown(pixels: Int) {
         if (pacy + pixels + pacBitmap.height < h ) {
             pacy = pacy + pixels
-            gameView!!.invalidate()
+
         }
     }
 
     fun movedir (direction : Int){
         when(direction) {
-            1 -> movePacmanRight(20)
-            2 -> movePacmanLeft(20)
-            3 -> movePacmanUp(20)
-            4 -> movePacmanDown(20)
+            1 -> movePacmanRight(10)
+            2 -> movePacmanLeft(10)
+            3 -> movePacmanUp(10)
+            4 -> movePacmanDown(10)
         }
         doCollisionCheck()
+        gameView!!.invalidate()
+
 
 
         println("pacman pos" + pacy+ pacx)
 
     }
+
 
 
     //TODO check if the pacman touches a gold coin
@@ -165,14 +213,20 @@ class Game(private var context: Context, view: TextView)  {
                 points++
                 pointsView.text = "${context.resources.getString(R.string.points)} ${points}"
                 coins[i].taken = true
+                coins.drop(i)
                 println(coins[i].taken)
                 println(points)
-            } }
-        if (points == 3) {
-            val toasty = Toast.makeText(context.applicationContext, "Du har vundet", Toast.LENGTH_SHORT)
-            toasty.show()
+            }
         }
+
+        if (points == 3) {
+            val toasty = Toast.makeText(context.applicationContext, "Difficulty up", Toast.LENGTH_SHORT)
+            toasty.show() }
     }
+
+
+
+
 
 }
 

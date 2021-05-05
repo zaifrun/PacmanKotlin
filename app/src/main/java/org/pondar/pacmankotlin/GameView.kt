@@ -15,6 +15,7 @@ class GameView : View {
 
 
     private var game: Game? = null
+    private var eneMies: Enemies? = null
     private var h: Int = 0
     private var w: Int = 0 //used for storing our height and width of the view
 
@@ -48,13 +49,15 @@ class GameView : View {
         //if not initizlise them
 
         if (!(game!!.coinsInitialized))
-            game?.initializeGoldcoins()
-
-
+        {game?.initializeGoldcoins()
+        }
+        game!!.lvl()
 
         //Making a new paint object
         val paint = Paint()
         val circlepaint = Paint()
+        val enemypain = Paint()
+        enemypain.color = Color.BLACK
         circlepaint.color = Color.RED
         canvas.drawColor(Color.WHITE) //clear entire canvas to white color
 
@@ -68,6 +71,11 @@ class GameView : View {
          for  (item in game!!.coins.indices) {
             if (!game!!.coins.get(item).taken)
                 canvas.drawCircle(game!!.coins[item].coinx.toFloat(), game!!.coins[item].coiny.toFloat(), radiusC, circlepaint)
+        }
+        for (items in game!!.skurke.indices){
+            if(game!!.skurke[items].dead== false){
+                canvas.drawCircle(game!!.skurke[items].enx.toFloat(),game!!.skurke[items].eny.toFloat(),radiusC,enemypain)
+            }
         }
         game?.doCollisionCheck()
         super.onDraw(canvas)

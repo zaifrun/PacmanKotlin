@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         gameView.setGame(game)
         startButton.setOnClickListener(this)
         stopButton.setOnClickListener(this)
+        newButton.setOnClickListener(this)
 
 
 
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
                 timerMethod()
             }
 
-        }, 0, 200) //0 indicates we start now, 200
+        }, 0, 50) //0 indicates we start now, 200
         //is the number of miliseconds between each call
 
     }
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         //through the runOnUiThread method.
 
         this.runOnUiThread(timerTick)
+
 
     }
 
@@ -128,11 +130,11 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             game!!.running = true
         } else if (v.id == R.id.stopButton) {
             game!!.running = false
-        } else if (v.id == R.id.action_newGame) {
-            counter = 0
+        } else if (v.id == R.id.newButton) {
             game!!.newGame() //you should call the newGame method instead of this
-            game!!.running = false
+            counter = 0
             textView.text = getString(R.string.timerValue,counter)
+
 
         }
     }
