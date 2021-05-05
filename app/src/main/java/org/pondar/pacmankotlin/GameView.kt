@@ -7,7 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 
 //note we now create our own view class that extends the built-in View class
@@ -38,11 +38,11 @@ class GameView : View {
     override fun onDraw(canvas: Canvas) {
         //Here we get the height and weight
 
-        h = canvas.height
-        w = canvas.width
+        h = height
+        w = width
         //update the size for the canvas to the game.
         game?.setSize(h, w)
-        Log.d("GAMEVIEW", "h = $h, w = $w")
+        Log.d("GAMEVIEW", "h = ${h}, w = ${w}")
 
         //are the coins initiazlied?
         //if not initizlise them

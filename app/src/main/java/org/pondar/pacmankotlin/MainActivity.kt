@@ -10,6 +10,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import android.view.View.OnClickListener
+import android.util.DisplayMetrics
 
 class MainActivity : AppCompatActivity(), OnClickListener {
 
@@ -18,9 +19,10 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     var counter: Int = 0
     val RIGHT = 1
     val LEFT = 2
-    val DOWN = 3
-    val UP = 4
+    val DOWN = 4
+    val UP = 3
     var dpac = RIGHT
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         stopButton.setOnClickListener(this)
 
 
+
+
         //make a new timer
         game!!.running = true //should the game be running?
         //We will call the timer 5 times each second
@@ -47,18 +51,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
         }, 0, 200) //0 indicates we start now, 200
         //is the number of miliseconds between each call
-        moveRight.setOnClickListener {
-             dpac = RIGHT
-        }
-        moveLeft.setOnClickListener {
-            dpac = LEFT
-        }
-        moveUp.setOnClickListener {
-            dpac = UP
-        }
-        moveDown.setOnClickListener {
-            dpac = DOWN
-        }
+
     }
 
     override fun onStop() {
@@ -95,11 +88,26 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             // run every second and one for the pacman which need to run
             //faster than every second
             textView.text = getString(R.string.timerValue, counter)
+
+
+            moveRight.setOnClickListener {
+                dpac = RIGHT
+
+            }
+            moveLeft.setOnClickListener {
+                dpac = LEFT
+            }
+            moveUp.setOnClickListener {
+                dpac = UP
+            }
+            moveDown.setOnClickListener {
+                dpac = DOWN
+            }
             when(dpac){
-               RIGHT -> game!!.movedir(1)
-                LEFT -> game!!.movedir(2)
-                UP -> game!!.movedir(3)
-                DOWN -> game!!.movedir(4)
+                RIGHT -> game!!.movedir(dpac)
+                LEFT -> game!!.movedir(dpac)
+                UP -> game!!.movedir(dpac)
+                DOWN -> game!!.movedir(dpac)
             }
 
 

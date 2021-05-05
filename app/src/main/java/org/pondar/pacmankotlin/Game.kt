@@ -23,16 +23,13 @@ class Game(private var context: Context, view: TextView)  {
     private var goldCoin: GoldCoin? = null
     var running = false
 
-
-
-
     //bitmap of the pacman
     var pacBitmap : Bitmap
     var pacx: Int = 0
     var pacy: Int = 0
 
     fun rng(): Int {
-        val rngone = (10..1050).shuffled().first()
+        val rngone = (10..800).shuffled().first()
         println(rngone)
         return rngone }
 
@@ -74,17 +71,12 @@ class Game(private var context: Context, view: TextView)  {
 
     //TODO initialize goldcoins also here
     fun initializeGoldcoins()  {
-        println("ArrayList MFFF" + coins.size)
         coinsInitialized = false
         var coin4 = GoldCoin(coinx = rng(), coiny = rng(), taken = false)
         var coin5 = GoldCoin(coinx = rng(), coiny = rng(), false)
         coins.add(coin4)
         coins.add(coin5)
-
-
     }
-
-
     fun newGame() {
         pacx = 200
         pacy = 200
@@ -94,7 +86,6 @@ class Game(private var context: Context, view: TextView)  {
         points = 0
         pointsView.text = "${context.resources.getString(R.string.points)} ${points}"
         gameView?.invalidate() //redraw screen
-
     }
 
     fun setSize(h: Int, w: Int) {
@@ -103,39 +94,44 @@ class Game(private var context: Context, view: TextView)  {
     }
     fun movePacmanRight(pixels: Int) {
         //still within our boundaries?
-        if (pacx + pixels + pacBitmap.width < w && pacx < this.w) {
+        if (pacx + pixels + pacBitmap.width < w ) {
             pacx = pacx + pixels
+            gameView!!.invalidate()
         }
     }
 
     fun movePacmanLeft(pixels: Int) {
-        if (pacx + pixels + pacBitmap.width < w ) {
+        if (pacx + pixels + pacBitmap.width > 0 && pacx > 0 ) {
             pacx = pacx - pixels
+            gameView!!.invalidate()
         }
     }
 
     fun movePacmanUp(pixels: Int) {
-        if (pacy + pixels + pacBitmap.height < h && pacy > 0) {
+        if (pacy + pixels + pacBitmap.height > 0 && pacy > 0 ) {
             pacy = pacy - pixels
+            gameView!!.invalidate()
         }
     }
 
     fun movePacmanDown(pixels: Int) {
-        if (pacy + pixels + pacBitmap.height < h && pacy < this.h) {
+        if (pacy + pixels + pacBitmap.height < h ) {
             pacy = pacy + pixels
+            gameView!!.invalidate()
         }
     }
 
     fun movedir (direction : Int){
         when(direction) {
-            1 -> movePacmanRight(10)
-            2 -> movePacmanLeft(10)
-            3 -> movePacmanUp(10)
-            4 -> movePacmanDown(10)
+            1 -> movePacmanRight(20)
+            2 -> movePacmanLeft(20)
+            3 -> movePacmanUp(20)
+            4 -> movePacmanDown(20)
         }
         doCollisionCheck()
-        gameView!!.invalidate()
-        println("pacman pos" + pacy+ pacx+direction)
+
+
+        println("pacman pos" + pacy+ pacx)
 
     }
 
@@ -155,9 +151,11 @@ class Game(private var context: Context, view: TextView)  {
     }
 
     fun doCollisionCheck()  {
+        val rpac = pacBitmap.width/2
+        val rrpac = pacBitmap.height/2
         for (i in coins.indices) {
-            var pacCenterX = pacx + pacBitmap.width / 2
-            var pacCenterY = pacy + pacBitmap.height / 2
+            var pacCenterX = pacx + rpac
+            var pacCenterY = pacy + rrpac
             var coinCenterX = coins.get(i).coinx + 60 / 2
             var coinCenterY = coins.get(i).coiny + 60 / 2
             var result = distance(pacCenterX, coinCenterX, pacCenterY, coinCenterY)
@@ -175,6 +173,7 @@ class Game(private var context: Context, view: TextView)  {
             toasty.show()
         }
     }
+
 }
 
 
