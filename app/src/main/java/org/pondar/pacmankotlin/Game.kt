@@ -121,10 +121,7 @@ class Game(private var context: Context, view: TextView) {
             coininit(1)
             coininit(1)
             coininit(1)
-            movePacmanUp(30)
-            movePacmanDown(30)
-            movePacmanRight(30)
-            movePacmanLeft(30)
+
 
         }
     }

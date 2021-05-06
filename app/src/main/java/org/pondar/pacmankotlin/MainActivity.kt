@@ -55,22 +55,12 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
     override fun onStop() {
         super.onStop()
-        //just to make sure if the app is killed, that we stop the timer.
+
         myTimer.cancel()
     }
 
     private fun timerMethod() {
-        //This method is called directly by the timer
-        //and runs in the same thread as the timer.
 
-        //we could do updates here TO GAME LOGIC,
-        // but not updates TO ACTUAL UI
-
-        // gameView.move(20)  // BIG NO NO TO DO THIS - WILL CRASH ON OLDER DEVICES!!!!
-
-
-        //We call the method that will work with the UI
-        //through the runOnUiThread method.
 
         this.runOnUiThread(timerTick)
 
