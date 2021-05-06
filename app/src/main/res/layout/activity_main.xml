@@ -50,7 +50,7 @@
     <org.pondar.pacmankotlin.GameView
         android:id="@+id/gameView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="549dp"
         android:layout_weight="1">
 
     </org.pondar.pacmankotlin.GameView>
@@ -60,62 +60,63 @@
     a full package path-->
 
 
-
-
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="139dp"
+        app:layout_constraintBottom_toTopOf="@+id/moveDown"
+        app:layout_constraintTop_toTopOf="@+id/moveDown">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <Button
+            android:id="@+id/moveRight"
+            style="@style/AppTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/moveRight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.813"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.483"
+            tools:text="Right" />
 
-            <Button
-                android:id="@+id/moveRight"
-                style="@style/AppTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/moveRight"
-                tools:text="Right" />
+        <Button
+            android:id="@+id/moveDown"
+            style="@style/AppTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="92dp"
+            android:text="@string/moveDown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.524"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Down" />
 
-            <Button
-                android:id="@+id/moveLeft"
-                style="@style/AppTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/moveLeft"
-                tools:text="Left"
-                />
-        </LinearLayout>
+        <Button
+            android:id="@+id/moveLeft"
+            style="@style/AppTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="72dp"
+            android:layout_marginBottom="44dp"
+            android:text="@string/moveLeft"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Left" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <Button
+            android:id="@+id/moveUp"
+            style="@style/AppTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="160dp"
+            android:text="@string/moveUp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Up" />
 
-            <Button
-                android:id="@+id/moveUp"
-                style="@style/AppTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/moveUp"
-                tools:text="Up"/>
-
-            <Button
-                android:id="@+id/moveDown"
-                style="@style/AppTheme"
-                android:text="@string/moveDown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Down" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

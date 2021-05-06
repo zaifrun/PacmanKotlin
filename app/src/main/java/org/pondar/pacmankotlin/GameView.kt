@@ -48,10 +48,20 @@ class GameView : View {
         //are the coins initiazlied?
         //if not initizlise them
 
-        if (!(game!!.coinsInitialized))
-        {game?.initializeGoldcoins()
+        if (!(game!!.coinsInitialized)) {
+            game?.initializeGoldcoins()
         }
         game!!.lvl()
+
+        /*fun moven(){
+            if (eneMies!!.enx > 0){
+                eneMies!!.enx = eneMies!!.enx - 20
+            }
+            else if (eneMies!!.enx == 0){
+                game!!.skurke.drop(1)
+            }
+
+        }*/
 
         //Making a new paint object
         val paint = Paint()
@@ -63,20 +73,24 @@ class GameView : View {
 
         //draw the pacman
         canvas.drawBitmap(game!!.pacBitmap, game?.pacx!!.toFloat(),
-               game?.pacy!!.toFloat(), paint)
+                game?.pacy!!.toFloat(), paint)
 
         //TODO loop through the list of goldcoins and draw them here
 
         var radiusC = 40f
-         for  (item in game!!.coins.indices) {
+        for (item in game!!.coins.indices) {
             if (!game!!.coins.get(item).taken)
                 canvas.drawCircle(game!!.coins[item].coinx.toFloat(), game!!.coins[item].coiny.toFloat(), radiusC, circlepaint)
         }
-        for (items in game!!.skurke.indices){
-            if(game!!.skurke[items].dead== false){
-                canvas.drawCircle(game!!.skurke[items].enx.toFloat(),game!!.skurke[items].eny.toFloat(),radiusC,enemypain)
+        for (items in game!!.skurke.indices) {
+            if (game!!.skurke[items].dead == false) {
+
+                canvas.drawCircle(game!!.skurke[items].enx.toFloat(), game!!.skurke[items].eny.toFloat(), radiusC, enemypain)
+
+
             }
         }
+
         game?.doCollisionCheck()
         super.onDraw(canvas)
     }

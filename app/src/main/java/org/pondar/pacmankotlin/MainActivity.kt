@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
     private var game: Game? = null
     private var myTimer: Timer = Timer()
-    var counter: Int = 0
+
     val RIGHT = 1
     val LEFT = 2
     val DOWN = 4
@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         startButton.setOnClickListener(this)
         stopButton.setOnClickListener(this)
         newButton.setOnClickListener(this)
-
-
 
 
         //make a new timer
@@ -84,12 +82,12 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         //This method runs in the same thread as the UI.
         // so we can draw
         if (game!!.running) {
-            counter++
+            game!!.counter++
             //update the counter - notice this is NOT seconds in this example
             //you need TWO counters - one for the timer count down that will
             // run every second and one for the pacman which need to run
             //faster than every second
-            textView.text = getString(R.string.timerValue, counter)
+            textView.text = getString(R.string.timerValue, game!!.counter)
 
 
             moveRight.setOnClickListener {
@@ -105,13 +103,12 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             moveDown.setOnClickListener {
                 dpac = DOWN
             }
-            when(dpac){
+            when (dpac) {
                 RIGHT -> game!!.movedir(dpac)
                 LEFT -> game!!.movedir(dpac)
                 UP -> game!!.movedir(dpac)
                 DOWN -> game!!.movedir(dpac)
             }
-
 
 
         }
@@ -132,8 +129,6 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             game!!.running = false
         } else if (v.id == R.id.newButton) {
             game!!.newGame() //you should call the newGame method instead of this
-            counter = 0
-            textView.text = getString(R.string.timerValue,counter)
 
 
         }
