@@ -28,7 +28,7 @@ class Game(private var context: Context,view: TextView) {
         //the list of goldcoins - initially empty
         var coins = ArrayList<GoldCoin>()
         //a reference to the gameview
-        private var gameView: GameView? = null
+        private lateinit var gameView: GameView
         private var h: Int = 0
         private var w: Int = 0 //height and width of screen
 
@@ -60,7 +60,7 @@ class Game(private var context: Context,view: TextView) {
         coinsInitialized = false
         points = 0
         pointsView.text = "${context.resources.getString(R.string.points)} $points"
-        gameView?.invalidate() //redraw screen
+        gameView.invalidate() //redraw screen
     }
     fun setSize(h: Int, w: Int) {
         this.h = h
@@ -72,7 +72,7 @@ class Game(private var context: Context,view: TextView) {
         if (pacx + pixels + pacBitmap.width < w) {
             pacx = pacx + pixels
             doCollisionCheck()
-            gameView!!.invalidate()
+            gameView.invalidate()
         }
     }
 

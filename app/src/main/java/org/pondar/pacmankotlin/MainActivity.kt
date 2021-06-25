@@ -3,35 +3,41 @@ package org.pondar.pacmankotlin
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
+import org.pondar.pacmankotlin.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     //reference to the game class.
-    private var game: Game? = null
+    private lateinit var game: Game
+    private lateinit var binding : ActivityMainBinding
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         //makes sure it always runs in portrait mode
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        setContentView(R.layout.activity_main)
+        Log.d("onCreate","Oncreate called")
 
-        game = Game(this,pointsView)
+        game = Game(this,binding.pointsView)
 
         //intialize the game view clas and game class
-        game?.setGameView(gameView)
-        gameView.setGame(game)
-        game?.newGame()
+        game.setGameView(binding.gameView)
+        binding.gameView.setGame(game)
+        game.newGame()
 
-        moveRight.setOnClickListener {
-            game?.movePacmanRight(10)
+        binding.moveRight.setOnClickListener {
+            game.movePacmanRight(10)
+
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -50,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             return true
         } else if (id == R.id.action_newGame) {
             Toast.makeText(this, "New Game clicked", Toast.LENGTH_LONG).show()
-            game?.newGame()
+            game.newGame()
             return true
         }
         return super.onOptionsItemSelected(item)
