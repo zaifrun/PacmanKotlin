@@ -35,8 +35,8 @@ class GameView : View {
     //drawn whenever we update the screen.
     override fun onDraw(canvas: Canvas) {
         //Here we get the height and weight
-        h = canvas.height
-        w = canvas.width
+        h = height
+        w = width
         //update the size for the canvas to the game.
         game.setSize(h, w)
         Log.d("GAMEVIEW", "h = $h, w = $w")

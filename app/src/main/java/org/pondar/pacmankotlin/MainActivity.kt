@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        //makes sure it always runs in portrait mode
+        //makes sure it always runs in portrait mode - will cost a warning
+        //but this is want we want!
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         Log.d("onCreate","Oncreate called")
 
