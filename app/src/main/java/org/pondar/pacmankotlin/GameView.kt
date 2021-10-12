@@ -1,6 +1,7 @@
 package org.pondar.pacmankotlin
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -13,12 +14,17 @@ import android.view.View
 class GameView : View {
 
     private lateinit var game: Game
-    private var h: Int = 0
-    private var w: Int = 0 //used for storing our height and width of the view
 
     fun setGame(game: Game) {
         this.game = game
     }
+
+    private var bitmap = BitmapFactory.decodeResource(resources, R.drawable.pacman)
+    private var coinmap = BitmapFactory.decodeResource(resources, R.drawable.coin)
+    private var pacx = 50
+    private var pacy = 400
+    var h: Int = 0
+    var w: Int = 0 //used for storing our height and width of the view
 
 
     /* The next 3 constructors are needed for the Android view system,
@@ -44,7 +50,7 @@ class GameView : View {
         //are the coins initiazlied?
         //if not initizlise them
         if (!(game.coinsInitialized))
-            game.initializeGoldcoins()
+            game.initializeGoldcoins(5)
 
 
         //Making a new paint object
@@ -55,8 +61,18 @@ class GameView : View {
         canvas.drawBitmap(game.pacBitmap, game.pacx.toFloat(),
                 game.pacy.toFloat(), paint)
 
-        //TODO loop through the list of goldcoins and draw them here
-
+        //TODO loop through the list of gold coins and draw them here
+        for(coin in game.coins ){
+            if (!coin.taken){
+            //if taken = false, draw = true
+                canvas.drawBitmap(game.coinBitmap, coin.coinX.toFloat(),
+                coin.coinY.toFloat(), paint)
+            }
+        }
+        for(enemy in game.enemies){
+            canvas.drawBitmap(game.enemyBitmap, enemy.enemyX.toFloat(),
+            enemy.enemyY.toFloat(), paint)
+        }
 
         game.doCollisionCheck()
         super.onDraw(canvas)

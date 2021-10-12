@@ -6,23 +6,41 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.View.OnClickListener
 import android.widget.Toast
 import org.pondar.pacmankotlin.databinding.ActivityMainBinding
+import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnClickListener {
+
+    private var timer: Timer = Timer()
+    var counter : Int = 0
+    //constants for directions - define the rest yourself
+    private val RIGHT = 1
+    private val LEFT = 2
+    private val DOWN = 3
+    private val UP = 4
+
+    // start of game. Pacman will always start in direction RIGHT
 
     //reference to the game class.
     private lateinit var game: Game
     private lateinit var binding : ActivityMainBinding
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        //Game state controls
+        binding.startButton.setOnClickListener(this)
+        binding.stopButton.setOnClickListener(this)
+        binding.resetButton.setOnClickListener(this)
+
+
         //makes sure it always runs in portrait mode - will cost a warning
         //but this is want we want!
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -33,33 +51,37 @@ class MainActivity : AppCompatActivity() {
         //intialize the game view clas and game class
         game.setGameView(binding.gameView)
         binding.gameView.setGame(game)
-        game.newGame()
+        game.reset()
 
         binding.moveRight.setOnClickListener {
-            game.movePacmanRight(10)
-
+            game.movePacman(0)
+        }
+        binding.moveLeft.setOnClickListener {
+            game.movePacman(1)
+        }
+        binding.moveUp.setOnClickListener {
+            game.movePacman(2)
+        }
+        binding.moveDown.setOnClickListener {
+            game.movePacman(3)
         }
     }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
+    override fun onStop() {
+        super.onStop()
+        //just to make sure if the app is killed, that we stop the timer.
+        timer.cancel()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
-        if (id == R.id.action_settings) {
-            Toast.makeText(this, "settings clicked", Toast.LENGTH_LONG).show()
-            return true
-        } else if (id == R.id.action_newGame) {
-            Toast.makeText(this, "New Game clicked", Toast.LENGTH_LONG).show()
-            game.newGame()
-            return true
+    override fun onClick(v: View) {
+        if (v.id == R.id.startButton) {
+            game.running = true
+        } else if (v.id == R.id.stopButton) {
+            game.running = false
+        } else if (v.id == R.id.resetButton) {
+            counter = 0
+            game.reset() //you should call the newGame method instead of this
+            game.running = false
+            binding.timerView.text = getString(R.string.timerValue,counter)
         }
-        return super.onOptionsItemSelected(item)
     }
 }
